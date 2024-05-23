@@ -82,7 +82,7 @@ def plot_signal(signal_combo,fs,section_n=0,sections=1,width=15,signal_type="ECG
   plt.show()
   return
 
-def plot_fhr_trace(fhr,ground_truth_fhr,fhr_trace_er_length,fs,results,width=15):
+def plot_fhr_trace(fhr,ground_truth_fhr,fhr_trace_er_length,fs,results,offset=[0,0],width=15):
   '''
   This function takes in two fhr traces, plot them and underlines the sections in which the difference
   is beyond the max value (given a proper signal is provided).
@@ -94,8 +94,8 @@ def plot_fhr_trace(fhr,ground_truth_fhr,fhr_trace_er_length,fs,results,width=15)
   results = [[str(results[0]),str(round(results[1],2)),str(round(results[2],2)),str(round(results[3],2))+"%"]]
   #plt.figure(figsize=(width,0.6))
   section_length = len(fhr)
-  start = 0
-  end = (start+section_length) -1
+  start = offset[0]
+  end = (section_length) -1
 
   xaxis = np.array(range(start,end))
   xaxis = xaxis/fs
@@ -113,7 +113,11 @@ def plot_fhr_trace(fhr,ground_truth_fhr,fhr_trace_er_length,fs,results,width=15)
   ax2.set_xlabel("Time (s)")
   val_max = max(max(fhr),max(ground_truth_fhr))
   val_min = min(min(fhr),min(ground_truth_fhr))
-  ax2.fill_between(np.linspace(0,60,len(fhr_trace_er_length)), val_min, val_max, where=fhr_trace_er_length==True, alpha=0.1,color="r",label="Out of range")
+  aaa = np.linspace(0,len(fhr_trace_er_length)/fs,len(fhr_trace_er_length))
+  aaa = np.array(range(0,len(fhr_trace_er_length)))
+  aaa = aaa[offset[0]:-offset[1]]/fs
+  fhr_trace_er_length = fhr_trace_er_length[offset[0]:-offset[1]]
+  ax2.fill_between(aaa, val_min, val_max, where=fhr_trace_er_length==True, alpha=0.1,color="r",label="Out of range")
   ax2.legend(loc='upper center', bbox_to_anchor=(0.5, -0.9),fancybox=True, ncol=5)
   return
 
