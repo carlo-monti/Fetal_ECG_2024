@@ -89,7 +89,7 @@ def plot_fhr_trace(fhr,ground_truth_fhr,fhr_trace_er_length,fs,results,offset=[0
   Input: the fhr trace, the real fhr trace, the error signal
   Output: a plot of the two fhr trace + a colored area thar represent the sections where the difference of the two is above threshold
   '''
-  plt.rcParams['figure.figsize'] = [width, 1.5]
+  plt.rcParams['figure.figsize'] = [width, 2.5]
   plt.rcParams['lines.linewidth'] = 0.5
   results = [[str(results[0]),str(round(results[1],2)),str(round(results[2],2)),str(round(results[3],2))+"%"]]
   #plt.figure(figsize=(width,0.6))
